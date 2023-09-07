@@ -34,8 +34,7 @@ export function ErrorBoundary(){
           {error.status} {error.statusText}
           <br></br>
           <Link className='error-enlace' to="/">Tal vez quieras volver a la pagina principal</Link>
-        </p>
-        
+        </p>        
       );
   }
 }
@@ -52,7 +51,7 @@ export function meta({data}){
       {title: `GuitarLA - ${data.data[0].attributes.nombre}`},
       {description: `Guitarras, venta de guitarras, guitarra ${data.data[0].attributes.nombre}`}
     ]  
-  }
+}
 
 export function links(){
     return [
