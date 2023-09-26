@@ -1,3 +1,5 @@
+
+import { useState } from 'react';
 import {
     Meta,
     Links,
@@ -48,9 +50,34 @@ export function links(){
 
 export default function App(){
 
+    const [carrito, setCarrito] = useState([])
+
+    const agregarCarrito = guitarra => {
+        if(carrito.some(guitarraState => guitarraState.id === guitarra.id)){
+            //Iterar sobre el arreglo e identificar el elemento duplicado
+            const carritoActualizado = carrito.map(guitarraState => {
+                if(guitarraState.id === guitarra.id){
+                    //reescribir cantidad
+                    guitarraState.cantidad = guitarra.cantidad
+                }
+                return guitarraState
+            })
+            //añadir al carrito
+            setCarrito(carritoActualizado)
+        } else{
+            //registro nuevo, agregar al carrito
+            setCarrito([...carrito, guitarra])
+        }
+    }
+
     return(
         <Document>
-            <Outlet/>
+            <Outlet
+                context={{
+                    agregarCarrito,
+                    carrito
+                }}
+            />
         </Document>
     )
 }
