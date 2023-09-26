@@ -33,9 +33,9 @@ function Carrito() {
       <div className="contenido">
         <div className="carrito">
           <h2>Articulos</h2>
-          {carrito.length === 0
+          {carrito?.length === 0
             ? "Carrito Vacio"
-            : carrito.map((producto) => (
+            : carrito?.map((producto) => (
                 <div key={producto.id} className="producto">
                   <div>
                     <img
