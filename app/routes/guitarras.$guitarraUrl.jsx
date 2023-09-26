@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { 
     useLoaderData,
     useRouteError,
     isRouteErrorResponse,
-    Link
+    Link,
+    useOutletContext
 } from '@remix-run/react'
 import { getGuitarra } from '~/models/guitarras.server'
 
@@ -54,8 +56,30 @@ export function meta({data}){
 
 function Guitarra() {
 
-    const guitarra = useLoaderData()
-    const {nombre, descripcion, imagen, precio} = guitarra.data[0].attributes
+  const {agregarCarrito} = useOutletContext()
+  const [cantidad, setCantidad] = useState(0)
+  const guitarra = useLoaderData()
+  const {nombre, descripcion, imagen, precio} = guitarra.data[0].attributes
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if(cantidad < 1) {
+      alert('Debes seleccionar una cantidad')
+      return
+    }
+
+    const guitarraSeleccionada = {
+      id: guitarra.data[0].id,
+      imagen: imagen.data.attributes.url,
+      nombre,
+      precio,
+      cantidad
+    }
+    agregarCarrito(guitarraSeleccionada)
+  }
+
+
   return (
     <div className='guitarra'>
         <img className='imagen' src={imagen.data.attributes.url} alt={`Imagen de la guitarra ${nombre}`} />
@@ -64,12 +88,16 @@ function Guitarra() {
             <p className='texto'>{descripcion}</p>
             <p className='precio'>${precio}</p>
 
-            <form className='formulario'>
+            <form onSubmit={handleSubmit} className='formulario'>
 
               <label htmlFor='cantidad'>Cantidad</label>
 
-              <select id='cantidad'>
-                <option value="">-- Seleccione --</option>
+              <select
+                onChange={e => setCantidad(+e.target.value)}
+                id='cantidad'
+
+              >
+                <option value="0">-- Seleccione --</option>
                 <option value="1">1</option>  
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -81,7 +109,7 @@ function Guitarra() {
                 type="submit"
                 value="Agregar al carrito"
               />
-              
+
             </form>
         </div>
     </div>
