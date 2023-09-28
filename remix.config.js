@@ -7,7 +7,7 @@ module.exports = {
   server: process.env.NODE_ENV === "development" ? undefined : "./server.js",
   ignoredRouteFiles: ["**/.*"],
   future: {},
-  v2_meta: true, // Habilita la compatibilidad con v2_meta
+  v1_meta: true, // Habilita la compatibilidad con v1_meta
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "api/index.js",
